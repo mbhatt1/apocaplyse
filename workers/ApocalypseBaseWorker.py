@@ -2,11 +2,10 @@
 '''
 #Todo: Need a base docker image for a worker. Which would be the image from cdstelly/nugget.git
 #Todo: This would be the class in the image which runs the commands on nugget. 
-#DockerinDocker: Instantiate as many containers as required to speedup processing. 
+#DockerinDocker: Instantiate as many containers as required to speedup processing?
 #This class is the basic unit of job to be scheduled. After scheduling, this class talks to the rest client which wraps nugget. Nugget processes the query on the evidence and the client returns the results back to this class. This class then proceeds to store it on redis or persistent layer or both. 
 #frontend-reactJS?
 ''' 
-
 class ApocaplyseBaseWorker():
 	
 	def __init__(self, par={}):
@@ -17,11 +16,22 @@ class ApocaplyseBaseWorker():
 		Job Description Dict needs to be designed. Should also have an option of creating new clusters:k8s? 
 		'''
 		self.nugget_params = par
+
 	def store_case_location(self, uuid=""):
 		#Check for Uuid Length and Type
 		self.case_location = uuid
 		return 0
 
+'''
+Give the user the following way to run: 
+        1. Execute nugget queries they put into the UI
+        2. Execute pre-defined templates
+                a. e.g. check volume for child pornography(could have a predefined template)
+		b. e.g. check the pcap file for tls traffic/http traffic
+		c. e.g. check the pcap file for files that were exfiltrated
+		d. e.g. check memory dump for a said process
+		e. e.g. dump the said process into a file
+'''
 	def store_nugget_commands(self, queries={}):
 		self.nugget_queries = queries
 		if bool(self.nugget_queries):

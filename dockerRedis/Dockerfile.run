@@ -1,0 +1,7 @@
+FROM scratch
+MAINTAINER Cory Altheide "coryaltheide@gmail.com"
+ADD / /
+USER redis
+EXPOSE 6379
+ENTRYPOINT ["/usr/bin/redis-server", "--dbfilename", "dump.rdb", "--dir", "/var/lib/redis/"]
+

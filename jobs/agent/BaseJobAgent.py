@@ -5,6 +5,8 @@ import subprocess
 
 
 """Rest Client interfacing with DSL
+   TODO: Group queries together?
+         Create Multiple containers?
 """
 
 app = Flask(__name__)

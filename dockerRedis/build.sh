@@ -1,5 +1,3 @@
-readonly DOCKER="/usr/bin/docker --"
-
-${DOCKER} build -t redis-builder . && \
-${DOCKER} run redis-builder | \
-${DOCKER} build -t tiny-redis -
+docker build -t redis-builder . && \
+docker run redis-builder | \
+docker build -t tiny-redis -

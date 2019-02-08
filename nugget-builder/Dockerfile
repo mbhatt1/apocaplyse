@@ -51,13 +51,13 @@ COPY nuggetruntime.conf /etc/supervisor/conf.d/nuggetruntime.conf
 
 # TSK 
 WORKDIR "/nuggetTSK"
-RUN git clone https://github.com/cdstelly/goTSKRPC
+RUN git clone https://github.com/mbhatt1/goTSKRPC
 ENV GOPATH /nuggetTSK/goTSKRPC
 RUN go build /nuggetTSK/goTSKRPC/goTSK.go
 
 # VOL
 WORKDIR "/nuggetVol"
-RUN git clone https://github.com/cdstelly/goVolRPC
+RUN git clone https://github.com/mbhatt1/goVolRPC
 ENV GOPATH /nuggetVol/goVolRPC
 RUN go build /nuggetVol/goVolRPC/goVol.go
 

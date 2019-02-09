@@ -1,0 +1,5 @@
+[DEFAULT]
+redisDirectory = dockerRedis
+jobsDirectory = jobs
+nuggetBuilder = nugget-nugget
+

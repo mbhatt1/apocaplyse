@@ -16,8 +16,23 @@ app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
 app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
+def make_celery(app):
+    celery = Celery(
+        app.import_name,
+        backend=app.config['CELERY_RESULT_BACKEND'],
+        broker=app.config['CELERY_BROKER_URL']
+    )
+    celery.conf.update(app.config)
 
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+    class ContextTask(celery.Task):
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery
+
+celery = make_celery(app)
 
 celery.conf.update(app.config)
 
@@ -25,17 +40,12 @@ celery.conf.update(app.config)
 Args: JSON with queries
 """
 
-@celery.task(name='make_req_to_agent', bind=True)
+@celery.task(name='make_req_to_agent')
 def request_to_agent(request_json):
     req_agent = {}
     req_agent['Queries'] = request_json['Queries']
     res = requests.post('',json=req_agent)
     return jsonify(res)
 
-@app.route('/', methods=['POST'])
-def start_request_in_background():
-    req_json = request.json
-    return request_to_agent.delay(req_json)
-
-if __name__ == '__main__':
-    app.run(threaded=True, host="0.0.0.0", port=5000)
+#Run Celery: celery -A TempWorker.celery worker -l info
+#Run Flask: python3 FlaskClient.py

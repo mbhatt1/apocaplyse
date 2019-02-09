@@ -1,3 +1,8 @@
+import configparser
+
+config = configparser.ConfigParser()
+config.read('./config/config')
+
 
 def show_banner():
     banner = u"""
@@ -23,6 +28,10 @@ def show_credit():
     print (credit)
     return 
 
+def parseConfig():
+    print (repr(config['DEFAULT']['redisDirectory']))
+    return
 
 show_banner()
 show_credit()
+parseConfig()

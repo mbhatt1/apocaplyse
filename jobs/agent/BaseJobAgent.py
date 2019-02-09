@@ -5,6 +5,7 @@ import subprocess
 
 
 """Rest Client interfacing with DSL
+   Goes inside Nugget container
    TODO: Group queries together?
          Create Multiple containers?
 """
